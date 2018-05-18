@@ -119,20 +119,29 @@
                 <version>1.0.0</version>
                 <configuration>
                     <authentication>
-                        <serverId>azure-auth</serverId>
+                        <serverId>azure-ftp-auth</serverId>
                     </authentication>
                     <resourceGroup>HelloCloud</resourceGroup>
-                    <appName>hello-cloud-007</appName>
+                    <appName>hello-cloud-pk-007</appName>
                     <region>westus</region>
-                    <containerSettings>
-                        <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-                    </containerSettings>
-                    <appSettings>
-                        <property>
-                            <name>PORT</name>
-                            <value>8080</value>
-                        </property>
-                    </appSettings>
+                    <javaVersion>1.8</javaVersion>
+                    <deploymentType>ftp</deploymentType>
+                    <resources>
+                        <resource>
+                            <directory>${project.basedir}/target</directory>
+                            <targetPath>/</targetPath>
+                            <includes>
+                                <include>hello.cloud-app-service-0.0.1-SNAPSHOT.jar</include>
+                            </includes>
+                        </resource>
+                        <resource>
+                            <directory>${project.basedir}</directory>
+                            <targetPath>/</targetPath>
+                            <includes>
+                                <include>web.config</include>
+                            </includes>
+                        </resource>
+                    </resources>
                 </configuration>
             </plugin>
         </plugins>
