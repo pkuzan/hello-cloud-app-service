@@ -7,6 +7,10 @@ azure-webapp-maven-plugin.
 HelloCloud uses an H2 database with Spring Data JPA for persistence. This will be replaced with SQL Server.
 Currently there is only a Swagger UI.
 
+The issue with this solution is vanilla Java applications are not directly supported by App Service.
+App Service only officially supports the deployment of Java applications into containers such as Tomcat or Docker.
+A Tomcat container is started by this project, but it is not used. 
+A web.config file specifies the startup behavior. 
 
 ## Setup
 
@@ -34,7 +38,7 @@ will be used to authenticate the plugin.
 
 ```
 <servers> 
-	<server>
+   <server>
      <id>azure-auth</id>
       <configuration>
          <client>APP_ID</client>
@@ -50,8 +54,8 @@ appName needs to be something globally unique and resourceGroup should refer to 
 new one will be created. 
 
 ```
-                    <resourceGroup>HelloCloud</resourceGroup>
-                    <appName>hello-cloud-pk-007</appName>
+<resourceGroup>HelloCloud</resourceGroup>
+<appName>hello-cloud-pk-007</appName>
 ```
 
 Run azure-webapp:deploy to deploy to App Service.
