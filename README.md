@@ -8,51 +8,50 @@ HelloCloud uses an H2 database with Spring Data JPA for persistence. This will b
 Currently there is only a Swagger UI.
 
 
-##
-Setup
+## Setup
 
+The Azure maven plugin needs to authenticate with Azure, a Service Principal is used for this purpose. 
 ```
 az login
 az account show --query "{subscriptionId:id, tenantId:tenantId}"
-az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/&lt;your subscription id&gt;"
+az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/YOUR_SUBSCRIPTION_ID;"
 ```
 
 It will respond :
 ```
 {
-  "appId": "&lt;app id&gt;",
-  "displayName": "&lt;displaynane&gt;",
-  "name": "&lt;name&gt;",
-  "password": "&lt;password&gt;",
-  "tenant": "&lt;tennant&gt;"
+  "appId": "APP_ID",
+  "displayName": "NAME",
+  "name": "http://NAME",
+  "password": "PASSWORD",
+  "tenant": "TENNANT_ID"
 }
 ```
-
 
 
 In your Maven settings.xml add the following, replacing the placeholders with your values, this 
 will be used to authenticate the plugin.
 
 ```
-&lt;servers&gt;
-   &lt;server&gt;
-     &lt;id&gt;azure-ftp-auth&lt;/id&gt;
-      &lt;configuration&gt;
-         &lt;client&gt;app id&lt;/client&gt;
-         &lt;tenant&gt;tennand&lt;/tenant&gt;
-         &lt;key&gt;password&lt;/key&gt;
-         &lt;environment&gt;AZURE&lt;/environment&gt;
-      &lt;/configuration&gt;
-   &lt;/server&gt;
-&lt;/servers&gt;
+<servers> 
+	<server>
+     <id>azure-auth</id>
+      <configuration>
+         <client>APP_ID</client>
+         <tenant>TENNANT_ID</tenant>
+         <key>PASSWORD</key>
+         <environment>AZURE</environment>
+      </configuration>
+   </server>
+</servers> 
 ```
 The appName and resourceGroup attributes of the azure-webapp-maven-plugin in the POM will need to be edited, 
 appName needs to be something globally unique and resourceGroup should refer to an existing Resource Group otherwise a 
 new one will be created. 
 
 ```
-&lt;resourceGroup&gt;HelloCloud&lt;/resourceGroup&gt;
-&lt;appName&gt;hello-cloud-pk-007&lt;/appName&gt;
+                    <resourceGroup>HelloCloud</resourceGroup>
+                    <appName>hello-cloud-pk-007</appName>
 ```
 
 Run azure-webapp:deploy to deploy to App Service.
